@@ -1,9 +1,15 @@
 // Require Libraries
 const express = require('express');
 const exphbs  = require('express-handlebars');
+const Tenor = require("tenorjs").client({
+    "Key": "EQNKCO4D4CUI", 
+    "Filter": "high", // "off", "low", "medium", "high", not case sensitive
+    "Locale": "en_US", // Your locale here, case-sensitivity depends on input
+});
 
 // App Setup
 const app = express();
+app.use(express.static('public'));
 
 // Middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -11,8 +17,18 @@ app.set('view engine', 'handlebars');
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('home')
-});
+
+    term = ""
+    if (req.query.term) {
+        term = req.query.term
+    }
+
+    Tenor.Search.Query(term, "10")
+        .then(response => {
+            const gifs = response;
+            res.render('home', { gifs })
+        }).catch(console.error);
+  })
 
 // app.get('/', (req, res) => {
 //     // set the url of the gif
