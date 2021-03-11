@@ -23,7 +23,6 @@
 
   form {
     margin-bottom:10px;
-    align-items: center;
   }
 
   button {
@@ -42,4 +41,10 @@
     outline: none;
     border: 1px solid #FE7880;
     color: #FE7880;
+  }
+
+  video {
+      align-items: center;
+      align-self: center;
+      align-content: center;
   }

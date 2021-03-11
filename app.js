@@ -11,11 +11,21 @@ const Tenor = require("tenorjs").client({
 const app = express();
 app.use(express.static('public'));
 
+// OUR MOCK ARRAY OF PROJECTS
+let reviews = [
+    { title: "Great Review", movieTitle: "Batman II" },
+    { title: "Awesome Movie", movieTitle: "Titanic" }
+  ]  
+
 // Middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 // Routes
+app.get('/reviews', (req, res) => {
+    res.render('reviews-index', { reviews: reviews });
+  })
+
 app.get('/', (req, res) => {
 
     term = ""
@@ -29,20 +39,6 @@ app.get('/', (req, res) => {
             res.render('home', { gifs })
         }).catch(console.error);
   })
-
-// app.get('/', (req, res) => {
-//     // set the url of the gif
-//     const gifUrl = 'https://media1.tenor.com/images/561c988433b8d71d378c9ccb4b719b6c/tenor.gif?itemid=10058245'
-//     // render the hello-gif view, passing the gifUrl into the view to be displayed
-//     res.render('hello-gif', { gifUrl })
-// });
-
-// app.get('/greetings/:name', (req, res) => {
-//     // grab the name from the path provided
-//     const name = req.params.name;
-//     // render the greetings view, passing along the name
-//     res.render('greetings', { name });
-//   })
 
 // Start Server
 app.listen(3000, () => {
