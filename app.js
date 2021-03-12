@@ -17,7 +17,7 @@ const Tenor = require("tenorjs").client({
 });
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/gif-search', { useNewUrlParser: true }, { useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/', { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 const Review = mongoose.model('Review', {
     title: String,
@@ -31,7 +31,7 @@ app.set('view engine', 'handlebars');
 
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/review', (req, res) => {
     Review.find().lean()
       .then(reviews => {
         res.render('reviews-index', { reviews: reviews });
@@ -79,7 +79,7 @@ app.put('/reviews/:id', (req, res) => {
       })
   })
 
-app.get('/gifs', (req, res) => {
+app.get('/', (req, res) => {
 
     term = ""
     if (req.query.term) {
